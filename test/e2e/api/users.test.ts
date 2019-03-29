@@ -86,10 +86,54 @@ describe('/api/users', () => {
     const response = await request(settings.app)
       .post(`/api/users/`)
       .send(testUser)
-      .expect('Content-Type', /json/)
-      .expect(200);
+      .expect(400);
 
-    expect(response.body.username).toBe(testUser.username);
+    expect(response.body.message).toBe('username cannot be empty');
+    done();
+  });
+
+  test('POST: should not create user with empty email', async (done) => {
+    const testUser = {
+      email: '',
+      password: 'password',
+      username: 'cool_user',
+    };
+    const response = await request(settings.app)
+      .post(`/api/users/`)
+      .send(testUser)
+      .expect(400);
+
+    expect(response.body.message).toBe('email cannot be empty');
+    done();
+  });
+
+  test('POST: should not create user with invalid email', async (done) => {
+    const testUser = {
+      email: 'not_a_valid_email_string',
+      password: 'password',
+      username: 'cool_user',
+    };
+    const response = await request(settings.app)
+      .post(`/api/users/`)
+      .send(testUser)
+      .expect(400);
+
+    expect(response.body.message).toBe('email invalid');
+    done();
+  });
+
+  test('POST: should not create user with empty password', async (done) => {
+    const testUser = {
+      email: 'hello@fakeemail.net',
+      password: '',
+      username: 'cool_user',
+    };
+    const response = await request(settings.app)
+      .post(`/api/users/`)
+      .send(testUser)
+      .expect(400);
+
+    expect(response.body.message).toBe('password cannot be empty');
     done();
   });
 
