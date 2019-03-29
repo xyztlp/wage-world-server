@@ -88,7 +88,7 @@ describe('/api/users', () => {
       .send(testUser)
       .expect(400);
 
-    expect(response.body.message).toBe('username cannot be empty');
+    expect(response.body.message).toBe('username should not be empty');
     done();
   });
 
@@ -103,7 +103,7 @@ describe('/api/users', () => {
       .send(testUser)
       .expect(400);
 
-    expect(response.body.message).toBe('email cannot be empty');
+    expect(response.body.message).toBe('email invalid');
     done();
   });
 
@@ -133,7 +133,7 @@ describe('/api/users', () => {
       .send(testUser)
       .expect(400);
 
-    expect(response.body.message).toBe('password cannot be empty');
+    expect(response.body.message).toBe('password must be atleast 8 characters in length');
     done();
   });
 
